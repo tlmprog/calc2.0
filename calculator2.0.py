@@ -2,8 +2,8 @@ from math import *
 from tkinter import *
 root=Tk()
 root.title('Calculator 2.0')
-root.iconbitmap('icon.ico')
-
+img = PhotoImage(file='icon.ico')
+root.tk.call('wm', 'iconphoto', root._w, img)
 e=Entry(root,text='Enter your name please!',bg='#050505',fg='#ffffff',width=14,font=("Bahnschrift",25),border=7)
 e.grid(row=0,column=0,columnspan=4,pady=6)
 def buttonclick(number):
