@@ -1,10 +1,12 @@
 from math import *
 from tkinter import *
+from tkinter import messagebox
+from PIL import ImageTk,Image
+import time
 root=Tk()
 root.title('Calculator 2.0')
-img = PhotoImage(file='icon.ico')
-root.tk.call('wm', 'iconphoto', root._w, img)
-e=Entry(root,text='Enter your name please!',bg='#050505',fg='#ffffff',width=14,font=("Bahnschrift",25),border=7)
+# root.iconbitmap('icon.ico')
+e=Entry(root,text='Enter your name please!',bg='#050505',fg='#ffffff',width=18,font=("Bahnschrift",20),border=7)
 e.grid(row=0,column=0,columnspan=4,pady=6)
 def buttonclick(number):
     e.insert(END,number)
@@ -16,14 +18,40 @@ def clearfunc():
     e.delete(0,END)
     return
 def equalfunc():
-    a=eval(e.get())
+    # a=eval(e.get())
+    temp_a_back=e.get()
+    temp_a=e.get()
+    for i in temp_a:
+        if i == '√':
+            temp_a=temp_a.replace('√', 'sqrt')
     e.delete(0,END)
-    e.insert(0,a)
-def inverser():
+    e.insert(0,temp_a)
+    kc=1
+    try:
+       a=eval(e.get())
+    except ZeroDivisionError:
+       a=temp_a_back
+       messagebox.showerror('Error',"Can't Divide By 0")
+    except SyntaxError:
+       kc=0
+    except ValueError:
+        a=temp_a_back
+        messagebox.showwarning('Error',"Can't show undefined value")
+    if kc!=0:
+        e.delete(0,END)
+        e.insert(0,a)
+    else:
+        e.delete(0,END)
+        e.insert(0,temp_a_back)
+def inverse():
     a=float(e.get())*-1
     e.delete(0,END)
     e.insert(0,a)
     return
+
+
+
+
 button_0=Button(root,text='0',bg='#1316e8',fg='black',padx=16,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick(0))
 button_1=Button(root,text='1',bg='#1316e8',fg='black',padx=19,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick(1))
 button_2=Button(root,text='2',bg='#1316e8',fg='black',padx=17,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick(2))
@@ -40,12 +68,12 @@ button_12=Button(root,text='CLEAR',bg='#c41417',fg='black',padx=73,pady=15,font 
 button_14=Button(root,text='-',bg='#343e78',fg='black',padx=18,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('-'))
 button_15=Button(root,text='×',bg='#343e78',fg='black',padx=17,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('*'))
 button_16=Button(root,text='/',bg='#343e78',fg='black',padx=20,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('/'))
-button_17=Button(root,text='+/-',bg='#32a891',fg='black',padx=5,pady=5,font = ("Bahnschrift", 20),command=inverser)
+button_17=Button(root,text='+/-',bg='#32a891',fg='black',padx=5,pady=5,font = ("Bahnschrift", 20),command=inverse)
 button_18=Button(root,text='.',bg='#32a891',fg='black',padx=21,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('.'))
 button_19=Button(root,text='⌫',bg='#c41417',fg='black',padx=6,pady=5,font = ("Bahnschrift", 20),command=deleter)
 button_20=Button(root,text=')',bg='#1316e8',fg='black',padx=5,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick(')'))
 button_21=Button(root,text='(',bg='#1316e8',fg='black',padx=5,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('('))
-button_22=Button(root,text='√',bg='#343e78',fg='black',padx=12,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('sqrt('))
+button_22=Button(root,text='√',bg='#343e78',fg='black',padx=12,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('√('))
 button_23=Button(root,text='(',bg='#1316e8',fg='black',padx=19,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick('('))
 button_24=Button(root,text=R')',bg='#1316e8',fg='black',padx=19,pady=5,font = ("Bahnschrift", 20),command=lambda:buttonclick(R')'))
 
